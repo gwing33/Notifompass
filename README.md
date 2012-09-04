@@ -4,8 +4,16 @@ I took the [Compass-Growl](https://github.com/Compass/compass-growl) gem and mod
 
 In the Compass <code>config.rb</code> I just added this...
 
-<pre><code>begin
+<pre><code>EXCEPTIONS = [StandardError, ScriptError]
+
+begin
 	require "notifompass"
-rescue
-	puts "Whoops."
+rescue *EXCEPTIONS
+	puts "You don't have notifompass gem installed."
+
+	begin
+		require "compass-growl"
+	rescue *EXCEPTIONS
+		puts "You don't have compass-growl installed either!"
+	end
 end</code></pre>
